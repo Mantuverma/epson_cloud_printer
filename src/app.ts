@@ -5,7 +5,7 @@ export const epsonRouter = express.Router();
 
 // Endpoint to initiate a print job
 epsonRouter.post("/print", async (req: Request, res: Response) => {
-  const url = `http://epson-cloud-printer.onrender.coms/document.xml`; // URL of your ePOS XML document
+  const url = `http://epson-cloud-printer.onrender.com/document.xml`; // URL of your ePOS XML document
 
   try {
     const response = await axios.post(
