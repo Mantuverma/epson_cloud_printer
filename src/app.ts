@@ -9,7 +9,7 @@ epsonRouter.post("/print", async (req: Request, res: Response) => {
 
   try {
     const response = await axios.post(
-      `https://api.epson.com/api/v1/devices/${process.env.EPSON_DEVICE_ID}/cloud/print`,
+      `https://pos-cloud-link.epson.com/public/api/v1/devices/${process.env.EPSON_DEVICE_ID}/cloud/print`,
       {
         callbackUrl: process.env.CALLBACK_URL,
         Url: url,
