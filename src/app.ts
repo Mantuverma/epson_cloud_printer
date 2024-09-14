@@ -35,7 +35,7 @@ epsonRouter.post("/print", async (req: Request, res: Response) => {
 });
 
 // Endpoint to handle the callback from Epson Cloud
-epsonRouter.post("/callback", (req: Request, res: Response) => {
+epsonRouter.get("/callback", (req: Request, res: Response) => {
   console.log("Callback received:", req.body);
   res.status(200).send("Callback received successfully.");
 });
