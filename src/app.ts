@@ -53,7 +53,7 @@ export const epsonRouter = express.Router();
 // Endpoint to return XML data for Epson
 epsonRouter.get("/print-data", (req: Request, res: Response) => {
   const serialNumber = req.query.serial || "Unknown Serial";
-
+  console.log("serialNumber", serialNumber);
   // Construct XML data
   const xmlPrintData = `<?xml version="1.0" encoding="utf-8"?>
     <PrintRequestInfo>
@@ -126,7 +126,7 @@ epsonRouter.post("/send-print", async (req: Request, res: Response) => {
 
   // URL for Epson to fetch the XML print data
   const xmlDataUrl = `http://epson-cloud-printer.onrender.com/epson/print-data?serial=${serialNumber}`;
-
+  console.log("xmlDataUrl", xmlDataUrl);
   // Callback URL where Epson will notify the status
   const callbackUrl = `http://epson-cloud-printer.onrender.com/epson/callback`;
 
@@ -134,7 +134,7 @@ epsonRouter.post("/send-print", async (req: Request, res: Response) => {
     url: xmlDataUrl, // URL Epson fetches XML data from
     callbackurl: callbackUrl, // URL Epson sends status updates to
   };
-
+  console.log("printJobData", printJobData);
   try {
     const response = await axios.post(
       `https://pos-cloud-link.epson.com/public/api/v1/devices/${process.env.EPSON_DEVICE_ID}/cloud/print`,
@@ -156,6 +156,7 @@ epsonRouter.post("/send-print", async (req: Request, res: Response) => {
     // Error response
     res.status(500).json({
       message: "Failed to initiate print job.",
+      error,
     });
   }
 });
