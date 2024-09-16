@@ -1,14 +1,14 @@
 <PrintRequestInfo>
   <ePOSPrint>
     <Parameter>
-      <devid>your_printer_device_id</devid>
-      <timeout>10000</timeout>
+      <devid>af9f92766d5b462893297e87d26abd5f</devid> <!-- Ensure this device ID is correct -->
+      <timeout>10000</timeout> <!-- 10-second timeout -->
     </Parameter>
     <PrintData>
       <epos-print xmlns="http://www.epson-pos.com/schemas/2011/03/epos-print">
-        <text align="center">Hello World</text>
-        <feed line="2"/>
-        <cut type="feed"/>
+        <text align="center">Hello World</text> <!-- Text to be printed, aligned center -->
+        <feed line="2"/> <!-- Feeds 2 lines -->
+        <cut type="feed"/> <!-- Cuts the paper -->
       </epos-print>
     </PrintData>
   </ePOSPrint>
