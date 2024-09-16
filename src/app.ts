@@ -40,7 +40,7 @@
 //   res.status(200).send("Callback received successfully.");
 // });
 
-import { Request, Response, Router } from "express";
+import express, { Request, Response } from "express";
 import axios from "axios";
 import dotenv from "dotenv";
 
@@ -48,7 +48,7 @@ import dotenv from "dotenv";
 dotenv.config();
 
 // Initialize router
-const epsonRouter = Router();
+const epsonRouter = express.Router();
 
 // Endpoint to return XML data for Epson
 epsonRouter.get("/print-data", (req: Request, res: Response) => {
