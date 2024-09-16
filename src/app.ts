@@ -48,7 +48,7 @@ import dotenv from "dotenv";
 dotenv.config();
 
 // Initialize router
-const epsonRouter = express.Router();
+export const epsonRouter = express.Router();
 
 // Endpoint to return XML data for Epson
 epsonRouter.get("/print-data", (req: Request, res: Response) => {
@@ -159,5 +159,3 @@ epsonRouter.post("/send-print", async (req: Request, res: Response) => {
     });
   }
 });
-
-export default epsonRouter;
