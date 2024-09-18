@@ -1,13 +1,13 @@
 <PrintRequestInfo>
   <ePOSPrint>
     <Parameter>
-      <devid>af9f92766d5b462893297e87d26abd5f</devid> <!-- Ensure this device ID is correct -->
-      <timeout>10000</timeout> <!-- 10-second timeout -->
+      <devid>af9f92766d5b462893297e87d26abd5f</devid> 
+      <timeout>10000</timeout>
     </Parameter>
     <PrintData>
 <epos-print xmlns="http://www.epson-pos.com/schemas/2011/03/epos-print">
            <text lang="en"/>
-                       <text smooth="true"/>
+            <text smooth="true"/>
             <text align="center"/>
             <text font="font_b"/>
            <text width="2" height="2"/>
