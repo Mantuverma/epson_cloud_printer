@@ -16,7 +16,7 @@ epsonRouter.post("/print", async (req: Request, res: Response) => {
       },
       {
         headers: {
-          "Content-Type": "application/json",
+          "Content-Type": "application/xml",
           "x-api-key": process.env.EPSON_API_KEY,
         },
       }
