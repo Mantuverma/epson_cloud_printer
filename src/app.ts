@@ -2,8 +2,6 @@ import express, { Request, Response } from "express";
 import axios from "axios";
 
 export const epsonRouter = express.Router();
-
-// Endpoint to initiate a print job
 epsonRouter.post("/print", async (req: Request, res: Response) => {
   const url = `http://epson-cloud-printer.onrender.com/document.xml`; // URL of your ePOS XML document
 
@@ -35,7 +33,7 @@ epsonRouter.post("/print", async (req: Request, res: Response) => {
 });
 
 // Endpoint to handle the callback from Epson Cloud
-epsonRouter.get("/callback", (req: Request, res: Response) => {
+epsonRouter.post("/callback", (req: Request, res: Response) => {
   console.log("Callback received:", req.body);
   res.status(200).send("Callback received successfully.");
 });
