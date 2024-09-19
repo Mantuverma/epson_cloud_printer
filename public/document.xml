@@ -2,11 +2,11 @@
 <PrintRequestInfo>
   <ePOSPrint>
     <Parameter>
-      <devid>"af9f92766d5b462893297e87d26abd5f"</devid> 
+      <devid>local_printer</devid> 
       <timeout>10000</timeout>
     </Parameter>
     <PrintData>
-<epos-print xmlns="http://www.epson-pos.com/schemas/2011/03/epos-print">
+   <epos-print xmlns="http://www.epson-pos.com/schemas/2011/03/epos-print">
            <text lang="en"/>
             <text smooth="true"/>
             <text align="center"/>
@@ -16,8 +16,8 @@
            <text>Printer Serial: XBVW024794 &#10;</text>
             <text>DELIVERY TICKET&#10;</text>
            <feed unit="12"/>
-                        <text>&#10;</text>
-                                     <text align="left"/>
+            <text>&#10;</text>
+             <text align="left"/>
              <text font="font_a"/>
              <text width="1" height="1"/>
              <text reverse="false" ul="false" em="false" color="color_1"/>
