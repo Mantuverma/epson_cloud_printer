@@ -2,7 +2,7 @@
 <PrintRequestInfo>
   <ePOSPrint>
     <Parameter>
-      <devid>af9f92766d5b462893297e87d26abd5f</devid> 
+      <devid>"af9f92766d5b462893297e87d26abd5f"</devid> 
       <timeout>10000</timeout>
     </Parameter>
     <PrintData>
