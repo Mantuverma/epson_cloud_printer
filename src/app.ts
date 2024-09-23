@@ -52,6 +52,8 @@ export const epsonRouter = express.Router();
 epsonRouter.get("/print-data", (req: Request, res: Response) => {
   const serialNumber = req.query.serial || "Unknown Serial";
   console.log("serialNumber", serialNumber);
+
+  console.log("hello");
   // Construct XML data
   const xmlPrintData = `<?xml version="1.0" encoding="utf-8"?>
     <PrintRequestInfo>
