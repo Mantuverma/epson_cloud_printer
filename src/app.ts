@@ -124,17 +124,23 @@ epsonRouter.post("/callback", (req: Request, res: Response) => {
 epsonRouter.post("/send-print", async (req: Request, res: Response) => {
   const serialNumber = req.body.serial || "Unknown Serial";
 
+  // Ensure the URL is correctly formatted and accessible
+  const baseUrl = "https://epson-cloud-printer.onrender.com"; // HTTPS should be used to ensure valid URL format
+
   // URL for Epson to fetch the XML print data
-  const xmlDataUrl = `http://epson-cloud-printer.onrender.com/epson/print-data?serial=${serialNumber}`;
+  const xmlDataUrl = `${baseUrl}/epson/print-data?serial=${serialNumber}`;
   console.log("xmlDataUrl", xmlDataUrl);
+
   // Callback URL where Epson will notify the status
-  const callbackUrl = `http://epson-cloud-printer.onrender.com/epson/callback`;
+  const callbackUrl = `${baseUrl}/epson/callback`;
+  console.log("callbackUrl", callbackUrl);
 
   const printJobData = {
     Url: xmlDataUrl, // URL Epson fetches XML data from
     CallbackUrl: callbackUrl, // URL Epson sends status updates to
   };
   console.log("printJobData", printJobData);
+
   try {
     const response = await axios.post(
       `https://pos-cloud-link.epson.com/public/api/v1/devices/${process.env.EPSON_DEVICE_ID}/cloud/print`,
