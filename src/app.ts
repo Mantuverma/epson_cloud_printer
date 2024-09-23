@@ -54,6 +54,7 @@ epsonRouter.get("/print-data", (req: Request, res: Response) => {
   console.log("serialNumber", serialNumber);
 
   console.log("hello");
+
   // Construct XML data
   const xmlPrintData = `<?xml version="1.0" encoding="utf-8"?>
     <PrintRequestInfo>
@@ -108,8 +109,10 @@ epsonRouter.get("/print-data", (req: Request, res: Response) => {
       </ePOSPrint>
     </PrintRequestInfo>`;
 
+  // Set the correct content-type header
+  res.setHeader("Content-Type", "text/xml; charset=utf-8");
+  console.log("xmlPrintData", xmlPrintData);
   // Send the XML response
-  res.setHeader("Content-Type", "application/xml");
   res.send(xmlPrintData);
 });
 
