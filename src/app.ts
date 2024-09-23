@@ -139,8 +139,8 @@ epsonRouter.post("/send-print", async (req: Request, res: Response) => {
   console.log("callbackUrl", callbackUrl);
 
   const printJobData = {
-    Url: xmlDataUrl, // URL Epson fetches XML data from
     CallbackUrl: callbackUrl, // URL Epson sends status updates to
+    Url: xmlDataUrl, // URL Epson fetches XML data from
   };
   console.log("printJobData", printJobData);
   console.log("device id", process.env.EPSON_DEVICE_ID);
