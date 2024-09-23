@@ -49,7 +49,7 @@ dotenv.config();
 export const epsonRouter = express.Router();
 
 // // Endpoint to return XML data for Epson
-epsonRouter.get("/print-data", (req: Request, res: Response) => {
+epsonRouter.post("/print-data", (req: Request, res: Response) => {
   const serialNumber = req.query.serial || "Unknown Serial";
   console.log("serialNumber", serialNumber);
 
