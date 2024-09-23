@@ -140,7 +140,7 @@ epsonRouter.post("/send-print", async (req: Request, res: Response) => {
     CallbackUrl: callbackUrl, // URL Epson sends status updates to
   };
   console.log("printJobData", printJobData);
-
+  console.log("device id", process.env.EPSON_DEVICE_ID);
   try {
     const response = await axios.post(
       `https://pos-cloud-link.epson.com/public/api/v1/devices/${process.env.EPSON_DEVICE_ID}/cloud/print`,
