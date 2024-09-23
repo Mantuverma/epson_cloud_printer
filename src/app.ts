@@ -84,119 +84,116 @@ epsonRouter.post("/print-data", (req: Request, res: Response) => {
     specialInstructions:
       "Extra cheese on the sandwich, please. Hold the mushrooms.",
     customerName: "Shabeer",
-    address: "Flat 4, 117 the parade, Highstreet, Watford WD17 1LU",
+    address: "Flat 4, 117 The Parade, High Street, Watford WD17 1LU",
     phone: "07767878723",
     email: "shabeer@yopmail.com",
   };
 
-  // Dynamically generate the XML data for the receipt with item names on the left and prices on the right
+  // Dynamically generate the XML data for the receipt items
   const itemsXml = receiptData.items
     .map(
       (item) => `
-      <text>${item.quantity} x ${item.name.padEnd(20)}£${item.price.toFixed(
+      <text>${item.quantity} x ${item.name.padEnd(
+        20,
+        " "
+      )}£${item.price.toFixed(2)}&#10;</text>
+      <text>${item.extra}&#10;</text>
+      <text>${item.size.padEnd(20, " ")}£${item.sizePrice.toFixed(
         2
       )}&#10;</text>
-      <text>${item.extra}&#10;${item.size.padEnd(20)}£${item.sizePrice.toFixed(
-        2
-      )}&#10;</text>
+      <text>----------------------------------------&#10;</text>
     `
     )
     .join("");
 
-  // Construct XML data
-  const xmlPrintData = `<?xml version="1.0" encoding="utf-8"?>
-    <PrintRequestInfo>
-      <ePOSPrint>
-        <Parameter>
-          <devid>local_printer</devid>
-          <timeout>10000</timeout>
-        </Parameter>
-        <PrintData>
-          <epos-print xmlns="http://www.epson-pos.com/schemas/2011/03/epos-print">
-            <!-- Header Section -->
-            <text lang="en"/>
-            <text smooth="true"/>
-            <text align="center"/>
-            <text font="font_b" width="2" height="2" em="true"/>
-            <text>Grauns&#10;</text>
-            <feed unit="12"/>
-            <text align="center"/>
-            <text>NO: 4A Parson Street, Banbury, Oxfordshire&#10;</text>
-            <text>England, OX16 5LW&#10;</text>
-            <text>VAT NUMBER: 425864770&#10;</text>
-            <feed unit="12"/>
-            <text>----------------------------------------&#10;</text>
+  // Combine all data into a complete receipt XML structure
+  const receiptXml = `
+  <?xml version="1.0" encoding="utf-8"?>
+  <PrintRequestInfo>
+    <ePOSPrint>
+      <Parameter>
+        <devid>local_printer</devid>
+        <timeout>10000</timeout>
+      </Parameter>
+      <PrintData>
+        <epos-print xmlns="http://www.epson-pos.com/schemas/2011/03/epos-print">
+  
+          <!-- Store Information -->
+          <text align="center" font="font_b" width="2" height="2" em="true"/>
+          <text>Grauns&#10;</text>
+          <text>NO: 4A Parson Street, Banbury, Oxfordshire, England, OX16 5LW.&#10;</text>
+          <text>VAT NUMBER: 425864770&#10;</text>
+          <text>----------------------------------------&#10;</text>
+  
+          <!-- Order Details -->
+          <text align="left" font="font_a"/>
+          <text>Order ID: ${receiptData.orderId}&#10;</text>
+          <text>Just Eat&#10;</text>
+          <text>Order received: ${receiptData.orderReceivedTime}&#10;</text>
+          <text>Estimated delivery time: ${
+            receiptData.estimatedDeliveryTime
+          }&#10;</text>
+          <text>----------------------------------------&#10;</text>
+  
+          <!-- Items Section -->
+          <text align="center" em="true" width="2" height="1">Items&#10;</text>
+          ${itemsXml}
+  
+          <!-- Charges Summary -->
+          <text align="left" font="font_a"/>
+          <text>Subtotal&#9;&#9;£${receiptData.subtotal.toFixed(2)}&#10;</text>
+          <text>Delivery fee&#9;&#9;£${receiptData.deliveryFee.toFixed(
+            2
+          )}&#10;</text>
+          <text>Service charge&#9;&#9;£${receiptData.serviceCharge.toFixed(
+            2
+          )}&#10;</text>
+          <text>Bad charge&#9;&#9;£${receiptData.badCharge.toFixed(
+            2
+          )}&#10;</text>
+          <text>VAT (20%)&#9;&#9;£${receiptData.vat.toFixed(2)}&#10;</text>
+          <text>----------------------------------------&#10;</text>
+  
+          <!-- TOTAL -->
+          <text align="center" width="2" height="2">TOTAL&#9;&#9;£${receiptData.total.toFixed(
+            2
+          )}&#10;</text>
+          <text>----------------------------------------&#10;</text>
+  
+          <!-- Special Instructions -->
+          <text align="left"/>
+          <text>Special Instructions&#10;</text>
+          <text>${receiptData.specialInstructions}&#10;</text>
+          <text>----------------------------------------&#10;</text>
+  
+          <!-- Customer Information -->
+          <text>Customer Name: ${receiptData.customerName}&#10;</text>
+          <text>Delivery address: ${receiptData.address}&#10;</text>
+          <text>Phone: ${receiptData.phone}&#10;</text>
+          <text>Email: ${receiptData.email}&#10;</text>
+          <text>----------------------------------------&#10;</text>
+  
+          <!-- Footer -->
+          <text align="center"/>
+          <text>Thank you for ordering with us!&#10;</text>
+          <feed line="3"/>
+  
+          <!-- Cut -->
+          <cut type="feed"/>
+        </epos-print>
+      </PrintData>
+    </ePOSPrint>
+  </PrintRequestInfo>
+  `;
 
-            <!-- Order Details Section -->
-            <text align="left"/>
-            <text font="font_a" em="true"/>
-            <text>Order ID: ${receiptData.orderId}&#9; Just Eat&#10;</text>
-            <text>Order received: ${receiptData.orderReceivedTime}&#10;</text>
-            <text>Estimated delivery time: ${
-              receiptData.estimatedDeliveryTime
-            }&#10;</text>
-            <feed unit="12"/>
-            <text>----------------------------------------&#10;</text>
-
-            <!-- Items Section -->
-            <text font="font_a" em="true"/>
-            <text>Items&#10;</text>
-            ${itemsXml}
-            <feed unit="12"/>
-            <text>----------------------------------------&#10;</text>
-
-            <!-- Charges Section -->
-            <text>Subtotal&#9;&#9;£${receiptData.subtotal.toFixed(
-              2
-            )}&#10;</text>
-            <text>Delivery fee&#9;&#9;£${receiptData.deliveryFee.toFixed(
-              2
-            )}&#10;</text>
-            <text>Service charge&#9;&#9;£${receiptData.serviceCharge.toFixed(
-              2
-            )}&#10;</text>
-            <text>Bad charge&#9;&#9;£${receiptData.badCharge.toFixed(
-              2
-            )}&#10;</text>
-            <text>VAT (20%)&#9;&#9;£${receiptData.vat.toFixed(2)}&#10;</text>
-            <feed unit="12"/>
-            <text>----------------------------------------&#10;</text>
-
-            <!-- Total Section -->
-            <text width="2" height="1" em="true"/>
-            <text>TOTAL&#9;&#9;£${receiptData.total.toFixed(2)}&#10;</text>
-            <feed unit="12"/>
-            <text>----------------------------------------&#10;</text>
-
-            <!-- Special Instructions Section -->
-            <text>Special Instructions&#10;</text>
-            <text>${receiptData.specialInstructions}&#10;</text>
-            <feed unit="12"/>
-            <text>----------------------------------------&#10;</text>
-
-            <!-- Customer Details Section -->
-            <text>Customer Name: ${receiptData.customerName}&#10;</text>
-            <text>Delivery address: ${receiptData.address}&#10;</text>
-            <text>Phone: ${receiptData.phone}&#10;</text>
-            <text>Email: ${receiptData.email}&#10;</text>
-            <feed unit="12"/>
-            <text>----------------------------------------&#10;</text>
-
-            <!-- Footer Section -->
-            <text align="center"/>
-            <text>Thank you for ordering with us&#10;</text>
-            <feed line="3"/>
-            <cut type="feed"/>
-          </epos-print>
-        </PrintData>
-      </ePOSPrint>
-    </PrintRequestInfo>`;
+  // Log the final XML output for the receipt
+  console.log(receiptXml);
 
   // Set the correct content-type header
   res.setHeader("Content-Type", "text/xml; charset=utf-8");
 
   // Send the XML response
-  res.send(xmlPrintData);
+  res.send(receiptXml);
 });
 
 // Endpoint to handle Epson callback for print status
@@ -262,3 +259,40 @@ epsonRouter.post("/send-print", async (req: Request, res: Response) => {
     });
   }
 });
+
+// Grauns
+// NO: 4A Parson Street, Banbury, Oxfordshire, England, OX16 5LW.
+// VAT NUMBER: 425864770
+// ----------------------------------------
+// Order ID: #14356
+// Just Eat
+// Order received: 12:30 PM | 02-02-2024
+// Estimated delivery time: 1:00 PM | 02-02-2024
+// ----------------------------------------
+// Items
+// 1 x Coffee              £5.00
+// SELECTED SIZE
+// Medium                  £1.00
+// ----------------------------------------
+// 5 x Sandwich            £5.00
+// SELECTED SIZE
+// Medium                  £5.00
+// ----------------------------------------
+// Subtotal                £10.00
+// Delivery fee            £2.00
+// Service charge          £12.00
+// Bad charge              £24.00
+// VAT (20%)               £5.00
+// ----------------------------------------
+// TOTAL                   £50.00
+// ----------------------------------------
+// Special Instructions
+// Extra cheese on the sandwich, please.
+// Hold the mushrooms.
+// ----------------------------------------
+// Customer Name: Shabeer
+// Delivery address: Flat 4, 117 The Parade, High Street, Watford WD17 1LU
+// Phone: 07767878723
+// Email: shabeer@yopmail.com
+// ----------------------------------------
+// Thank you for ordering with us!
