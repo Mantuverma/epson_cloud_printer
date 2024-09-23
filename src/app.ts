@@ -51,9 +51,56 @@ export const epsonRouter = express.Router();
 // // Endpoint to return XML data for Epson
 epsonRouter.post("/print-data", (req: Request, res: Response) => {
   const serialNumber = req.query.serial || "Unknown Serial";
-  console.log("serialNumber", serialNumber);
 
-  console.log("hello");
+  // Example dynamic receipt data
+  const receiptData = {
+    orderId: "#14356",
+    orderReceivedTime: "12:30 PM | 02-02-2024",
+    estimatedDeliveryTime: "1:00 PM | 02-02-2024",
+    items: [
+      {
+        name: "Coffee",
+        price: 5.0,
+        extra: "SELECTED SIZE",
+        size: "Medium",
+        sizePrice: 1.0,
+      },
+      {
+        name: "Sandwich",
+        quantity: 5,
+        price: 5.0,
+        extra: "SELECTED SIZE",
+        size: "Medium",
+        sizePrice: 5.0,
+      },
+    ],
+    subtotal: 10.0,
+    deliveryFee: 2.0,
+    serviceCharge: 12.0,
+    badCharge: 24.0,
+    vat: 5.0,
+    total: 50.0,
+    specialInstructions:
+      "Extra cheese on the sandwich, please. Hold the mushrooms.",
+    customerName: "Shabeer",
+    address: "Flat 4, 117 the parade, Highstreet, Watford WD17 1LU",
+    phone: "07767878723",
+    email: "shabeer@yopmail.com",
+  };
+
+  // Dynamically generate the XML data for the receipt
+  const itemsXml = receiptData.items
+    .map(
+      (item) => `
+    <text>${item.quantity ? `${item.quantity} x ` : ""}${
+        item.name
+      }&#9;£${item.price.toFixed(2)}&#10;</text>
+    <text>${item.extra}&#10;${item.size}&#9;£${item.sizePrice.toFixed(
+        2
+      )}&#10;</text>
+  `
+    )
+    .join("");
 
   // Construct XML data
   const xmlPrintData = `<?xml version="1.0" encoding="utf-8"?>
@@ -72,36 +119,45 @@ epsonRouter.post("/print-data", (req: Request, res: Response) => {
             <text width="2" height="2"/>
             <text reverse="false" ul="false" em="true" color="color_1"/>
             <text>Printer Serial: ${serialNumber}&#10;</text>
-            <text>Hello naveen ;</text>
+            <text align="center"/>
+            <text>Grauns&#10;</text>
+            <text>NO: 4A Parson Street, Banbury, Oxfordshire,&#10;England, OX16 5LW&#10;</text>
+            <text>VAT NUMBER: 425864770&#10;</text>
             <feed unit="12"/>
-            <text>&#10;</text>
             <text align="left"/>
-            <text font="font_a"/>
-            <text width="1" height="1"/>
-            <text reverse="false" ul="false" em="false" color="color_1"/>
-            <text>Order&#9;0001&#10;</text>
-            <text width="1" height="1"/>
-            <text reverse="false" ul="false" em="false" color="color_1"/>
-            <text>Time&#9;sept 23 2024;</text>
-            <text>Seat&#9;A-4&#10;</text>
-            <text>&#10;</text>
-            <text width="1" height="1"/>
-            <text reverse="false" ul="false" em="false" color="color_1"/>
-            <text>Alt Beer&#10;</text>
-            <text>&#9;$10.00  x  2</text>
-            <text x="384"/>
-            <text>    $20.00&#10;</text>
-            <text>&#10;</text>
-            <text reverse="false" ul="false" em="true"/>
+            <text>Order ID: ${receiptData.orderId}    Just Eat&#10;</text>
+            <text>Order received: ${receiptData.orderReceivedTime}&#10;</text>
+            <text>Estimated delivery time: ${
+              receiptData.estimatedDeliveryTime
+            }&#10;</text>
+            <feed unit="12"/>
+            <text>Items&#10;</text>
+            ${itemsXml}
+            <feed unit="12"/>
+            <text>Subtotal&#9;£${receiptData.subtotal.toFixed(2)}&#10;</text>
+            <text>Delivery fee&#9;£${receiptData.deliveryFee.toFixed(
+              2
+            )}&#10;</text>
+            <text>Service charge&#9;£${receiptData.serviceCharge.toFixed(
+              2
+            )}&#10;</text>
+            <text>Bad charge&#9;£${receiptData.badCharge.toFixed(2)}&#10;</text>
+            <text>VAT (20%)&#9;£${receiptData.vat.toFixed(2)}&#10;</text>
+            <feed unit="12"/>
             <text width="2" height="1"/>
-            <text>TOTAL</text>
-            <text x="264"/>
-            <text>    $20.00&#10;</text>
-            <text reverse="false" ul="false" em="false"/>
+            <text>TOTAL&#9;£${receiptData.total.toFixed(2)}&#10;</text>
+            <feed unit="12"/>
             <text width="1" height="1"/>
+            <text>Special Instructions&#10;</text>
+            <text>${receiptData.specialInstructions}&#10;</text>
+            <feed unit="12"/>
+            <text>Customer Name: ${receiptData.customerName}&#10;</text>
+            <text>Delivery address: ${receiptData.address}&#10;</text>
+            <text>Phone: ${receiptData.phone}&#10;</text>
+            <text>Email: ${receiptData.email}&#10;</text>
             <feed unit="12"/>
             <text align="center"/>
-            <barcode type="code39" hri="none" font="font_a" width="2" height="60">0001</barcode>
+            <text>Thank you for ordering with us&#10;</text>
             <feed line="3"/>
             <cut type="feed"/>
           </epos-print>
@@ -112,6 +168,7 @@ epsonRouter.post("/print-data", (req: Request, res: Response) => {
   // Set the correct content-type header
   res.setHeader("Content-Type", "text/xml; charset=utf-8");
   console.log("xmlPrintData", xmlPrintData);
+
   // Send the XML response
   res.send(xmlPrintData);
 });
