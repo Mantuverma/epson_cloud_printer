@@ -112,7 +112,7 @@ epsonRouter.get("/print-data", (req: Request, res: Response) => {
 });
 
 // Endpoint to handle Epson callback for print status
-epsonRouter.get("/callback", (req: Request, res: Response) => {
+epsonRouter.post("/callback", (req: Request, res: Response) => {
   console.log("Callback received:", req.body);
   // Process the print status
   res.status(200).json({ message: "Callback received successfully" });
@@ -123,7 +123,7 @@ epsonRouter.post("/send-print", async (req: Request, res: Response) => {
   const serialNumber = req.body.serial || "Unknown Serial";
 
   // URL for Epson to fetch the XML print data
-  const xmlDataUrl = `http://localhost:3000/epson/print-data?serial=${serialNumber}`;
+  const xmlDataUrl = `https://epson-cloud-printer.onrender.com/epson/print-data?serial=${serialNumber}`;
   console.log("xmlDataUrl", xmlDataUrl);
   // Callback URL where Epson will notify the status
   const callbackUrl = `http://epson-cloud-printer.onrender.com/epson/callback`;
