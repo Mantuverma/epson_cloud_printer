@@ -116,71 +116,68 @@ epsonRouter.post("/print-data", (req: Request, res: Response) => {
             <!-- Header Section -->
             <text lang="en"/>
             <text smooth="true"/>
-            <text align="center"/>
+            <text align="left"/>
             <text font="font_b" width="2" height="2" em="true"/>
             <text>Grauns&#10;</text>
             <feed unit="12"/>
             <text align="center"/>
-            <text>NO: 4A Parson Street, Banbury, Oxfordshire&#10;</text>
+            <text>NO: 4A Parson Street,&#10; Banbury, Oxfordshire&#10;</text>
             <text>England, OX16 5LW&#10;</text>
             <text>VAT NUMBER: 425864770&#10;</text>
             <feed unit="12"/>
-            <text>----------------------------------------&#10;</text>
+            <text>----------------------&#10;&#10;</text>
 
             <!-- Order Details Section -->
             <text align="left"/>
             <text font="font_a" em="true"/>
-            <text>Order ID: ${receiptData.orderId}&#9; Just Eat&#10;</text>
+            <text>Order ID: ${receiptData.orderId}&#9;Uber Eat&#10;</text>
             <text>Order received: ${receiptData.orderReceivedTime}&#10;</text>
-            <text>Estimated delivery time: ${
-              receiptData.estimatedDeliveryTime
-            }&#10;</text>
             <feed unit="12"/>
-            <text>----------------------------------------&#10;</text>
+            <text>-----------------------&#10;&#10;</text>
 
             <!-- Items Section -->
             <text font="font_a" em="true"/>
             <text>Items&#10;</text>
             ${itemsXml}
             <feed unit="12"/>
-            <text>----------------------------------------&#10;</text>
+            <text>------------------------&#10;&#10;</text>
 
             <!-- Charges Section -->
             <text>Subtotal&#9;&#9;£${receiptData.subtotal.toFixed(
               2
             )}&#10;</text>
-            <text>Delivery fee&#9;&#9;£${receiptData.deliveryFee.toFixed(
+            <text>Delivery fee&#9;£${receiptData.deliveryFee.toFixed(
               2
             )}&#10;</text>
             <text>Service charge&#9;&#9;£${receiptData.serviceCharge.toFixed(
               2
             )}&#10;</text>
-            <text>Bad charge&#9;&#9;£${receiptData.badCharge.toFixed(
-              2
-            )}&#10;</text>
+            <text>Bad charge&#9;£${receiptData.badCharge.toFixed(2)}&#10;</text>
             <text>VAT (20%)&#9;&#9;£${receiptData.vat.toFixed(2)}&#10;</text>
             <feed unit="12"/>
-            <text>----------------------------------------&#10;</text>
+            <text>-----------------------&#10;&#10;</text>
 
             <!-- Total Section -->
             <text width="2" height="1" em="true"/>
-            <text>TOTAL&#9;&#9;£${receiptData.total.toFixed(2)}&#10;</text>
+            <text font="font_b">TOTAL&#9;&#9;&#9;£${receiptData.total.toFixed(
+              2
+            )}&#10;</text>
             <feed unit="12"/>
-            <text>----------------------------------------&#10;</text>
+            <text>-----------------------&#10;&#10;</text>
 
             <!-- Special Instructions Section -->
-            <text>Special Instructions&#10;</text>
+            <text>Special Instructions&#10;&#10;</text>
             <text>${receiptData.specialInstructions}&#10;</text>
             <feed unit="12"/>
-            <text>----------------------------------------&#10;</text>
+            <text>------------------------&#10;&#10;</text>
 
             <!-- Customer Details Section -->
-            <text>Customer Name: ${receiptData.customerName}&#10;</text>
-            <text>Delivery address: ${receiptData.address}&#10;</text>
+            <text>Customer Name: ${receiptData.customerName}&#10;&#10;</text>
+            <text>Delivery address: ${receiptData.address}&#10;&#10;</text>
             <text>Phone: ${receiptData.phone}&#10;</text>
             <text>Email: ${receiptData.email}&#10;</text>
             <feed unit="12"/>
-            <text>----------------------------------------&#10;</text>
+            <text>------------------------&#10;&#10;</text>
 
             <!-- Footer Section -->
             <text align="center"/>
