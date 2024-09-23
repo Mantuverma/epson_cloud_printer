@@ -123,14 +123,14 @@ epsonRouter.post("/send-print", async (req: Request, res: Response) => {
   const serialNumber = req.body.serial || "Unknown Serial";
 
   // URL for Epson to fetch the XML print data
-  const xmlDataUrl = `https://epson-cloud-printer.onrender.com/epson/print-data?serial=${serialNumber}`;
+  const xmlDataUrl = `http://epson-cloud-printer.onrender.com/epson/print-data?serial=${serialNumber}`;
   console.log("xmlDataUrl", xmlDataUrl);
   // Callback URL where Epson will notify the status
   const callbackUrl = `http://epson-cloud-printer.onrender.com/epson/callback`;
 
   const printJobData = {
-    url: xmlDataUrl, // URL Epson fetches XML data from
-    callbackurl: callbackUrl, // URL Epson sends status updates to
+    Url: xmlDataUrl, // URL Epson fetches XML data from
+    CallbackUrl: callbackUrl, // URL Epson sends status updates to
   };
   console.log("printJobData", printJobData);
   try {
