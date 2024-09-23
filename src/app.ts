@@ -152,11 +152,21 @@ epsonRouter.post("/send-print", async (req: Request, res: Response) => {
       message: "Print job initiated successfully.",
       data: response.data,
     });
-  } catch (error) {
+  } catch (error: any) {
     // Error response
+    console.error("Error initiating print job:", {
+      message: error.message,
+      status: error.response?.status, // HTTP status code
+      data: error.response?.data, // Server response data
+      config: error.config, // Request config that was sent
+    });
     res.status(500).json({
       message: "Failed to initiate print job.",
-      error,
+      error: {
+        message: error.message,
+        status: error.response?.status,
+        data: error.response?.data,
+      },
     });
   }
 });
