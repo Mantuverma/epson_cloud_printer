@@ -95,10 +95,10 @@ epsonRouter.post("/print-data", (req: Request, res: Response) => {
       (item) => `
       <text>${item.quantity} x ${item.name.padEnd(20)}£${item.price.toFixed(
         2
-      )}</text>
+      )}&#10;</text>
       <text>${item.extra}&#10;${item.size.padEnd(20)}£${item.sizePrice.toFixed(
         2
-      )}</text>
+      )}&#10;</text>
     `
     )
     .join("");
@@ -116,12 +116,13 @@ epsonRouter.post("/print-data", (req: Request, res: Response) => {
             <!-- Header Section -->
             <text lang="en"/>
             <text smooth="true"/>
-            
+            <text align="left"/>
+
             <!-- Order Details Section -->
             <text align="left"/>
             <text font="font_a" em="true"/>
             <text>Order ID: ${receiptData.orderId}&#9;Uber Eat&#10;</text>
-            <text>Time & Date: ${receiptData.orderReceivedTime}&#10;</text>
+            <text>Date & Time: ${receiptData.orderReceivedTime}&#10;</text>
             <feed unit="12"/>
             <text>------------------------&#10;&#10;</text>
 
@@ -145,7 +146,7 @@ epsonRouter.post("/print-data", (req: Request, res: Response) => {
             <text>Bad charge&#9;£${receiptData.badCharge.toFixed(2)}&#10;</text>
             <text>VAT 20%&#9;&#9;£${receiptData.vat.toFixed(2)}&#10;</text>
             <feed unit="12"/>
-            <text>------------------------&#10;&#10;</text>
+           <text>------------------------&#10;&#10;</text>
 
             <!-- Total Section -->
             <text width="2" height="1" em="true"/>
@@ -153,13 +154,13 @@ epsonRouter.post("/print-data", (req: Request, res: Response) => {
               2
             )}&#10;</text>
             <feed unit="12"/>
-           <text>------------------------&#10;&#10;</text>
+            <text>------------------------&#10;&#10;</text>
 
             <!-- Special Instructions Section -->
             <text>Special Instructions&#10;&#10;</text>
             <text>${receiptData.specialInstructions}&#10;</text>
             <feed unit="12"/>
-           <text>------------------------&#10;&#10;</text>>
+            <text>------------------------&#10;&#10;</text>
 
             <!-- Customer Details Section -->
             <text>Customer Name: ${receiptData.customerName}&#10;&#10;</text>
@@ -167,11 +168,11 @@ epsonRouter.post("/print-data", (req: Request, res: Response) => {
             <text>Phone: ${receiptData.phone}&#10;</text>
             <text>Email: ${receiptData.email}&#10;</text>
             <feed unit="12"/>
-           <text>------------------------&#10;&#10;</text>
+            <text>------------------------&#10;&#10;</text>
 
             <!-- Footer Section -->
             <text align="center"/>
-            <text>Thank you for ordering with Graun&#10;</text>
+            <text>Thank you for ordering with Grauns&#10;</text>
             <feed line="3"/>
             <cut type="feed"/>
           </epos-print>
