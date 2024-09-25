@@ -78,7 +78,6 @@ epsonRouter.post("/print-data", (req: Request, res: Response) => {
     subtotal: 10.0,
     deliveryFee: 2.0,
     serviceCharge: 12.0,
-    badCharge: 24.0,
     vat: 5.0,
     total: 50.0,
     specialInstructions:
@@ -117,26 +116,26 @@ epsonRouter.post("/print-data", (req: Request, res: Response) => {
             <text lang="en"/>
             <text smooth="true"/>
             <text align="left"/>
-            <text font="font_b" width="2" height="2" em="true"/>
+            <text font="font_b" width="2" height="1" em="true"/>
             <text>Grauns&#10;</text>
             <feed unit="12"/>
-            <text align="center"/>
-            <text>NO: 4A Parson Street,&#10; Banbury, Oxfordshire&#10;</text>
+            <text align="left" width="2" height="1" em="true"/>
+            <text >NO: 4A Parson Street,&#10; Banbury, Oxfordshire&#10;</text>
             <text>England, OX16 5LW&#10;</text>
             <text>VAT NUMBER: 425864770&#10;</text>
             <feed unit="12"/>
-            <text>----------------------&#10;&#10;</text>
+            <text>------------------------&#10;&#10;</text>
 
             <!-- Order Details Section -->
             <text align="left"/>
-            <text font="font_a" em="true"/>
+            <text font="font_a" width="2" height="1"  em="true"/>
             <text>Order ID: ${receiptData.orderId}&#9;Uber Eat&#10;</text>
             <text>Order received: ${receiptData.orderReceivedTime}&#10;</text>
             <feed unit="12"/>
-            <text>-----------------------&#10;&#10;</text>
+            <text>------------------------&#10;&#10;</text>
 
             <!-- Items Section -->
-            <text font="font_a" em="true"/>
+            <text font="font_a" width="2" height="1"  em="true"/>
             <text>Items&#10;</text>
             ${itemsXml}
             <feed unit="12"/>
@@ -152,10 +151,9 @@ epsonRouter.post("/print-data", (req: Request, res: Response) => {
             <text>Service charge&#9;&#9;£${receiptData.serviceCharge.toFixed(
               2
             )}&#10;</text>
-            <text>Bad charge&#9;£${receiptData.badCharge.toFixed(2)}&#10;</text>
             <text>VAT (20%)&#9;&#9;£${receiptData.vat.toFixed(2)}&#10;</text>
             <feed unit="12"/>
-            <text>-----------------------&#10;&#10;</text>
+            <text>------------------------&#10;&#10;</text>
 
             <!-- Total Section -->
             <text width="2" height="1" em="true"/>
@@ -163,13 +161,13 @@ epsonRouter.post("/print-data", (req: Request, res: Response) => {
               2
             )}&#10;</text>
             <feed unit="12"/>
-            <text>-----------------------&#10;&#10;</text>
+            <text>------------------------&#10;&#10;</text>
 
             <!-- Special Instructions Section -->
             <text>Special Instructions&#10;&#10;</text>
             <text>${receiptData.specialInstructions}&#10;</text>
             <feed unit="12"/>
-            <text>------------------------&#10;&#10;</text>
+           <text>------------------------&#10;&#10;</text>
 
             <!-- Customer Details Section -->
             <text>Customer Name: ${receiptData.customerName}&#10;&#10;</text>
