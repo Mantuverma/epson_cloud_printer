@@ -95,7 +95,7 @@ epsonRouter.post("/print-data", (req: Request, res: Response) => {
 <text font="font_b" width="1" height="1">${item.quantity} x ${
         item.name
       }&#9;&#9;£${item.price.toFixed(2)}&#10;</text>
-<text font="font_a" width="1" height="1">${item.extra}: ${
+<text font="font_a" width="1" height="1"> ${
         item.size
       }&#9;&#9;£${item.sizePrice.toFixed(2)}&#10;</text>
     `
@@ -137,13 +137,13 @@ epsonRouter.post("/print-data", (req: Request, res: Response) => {
 <text>----------------------------------------&#10;</text>
  
             <!-- Charges Section -->
-<text font="font_b" width="1" height="1" em="true">Subtotal&#9;&#9;£${receiptData.subtotal.toFixed(
+<text font="font_b" width="1" height="1" em="true">Subtotal&#9;&#9;&#9;£${receiptData.subtotal.toFixed(
     2
   )}&#10;</text>
 <text font="font_b" width="1" height="1" em="true">Delivery Fee&#9;&#9;£${receiptData.deliveryFee.toFixed(
     2
   )}&#10;</text>
-<text font="font_b" width="1" height="1" em="true">Service Charge&#9;£${receiptData.serviceCharge.toFixed(
+<text font="font_b" width="1" height="1" em="true">Service Charge&#9;&#9;£${receiptData.serviceCharge.toFixed(
     2
   )}&#10;</text>
 <text font="font_b" width="1" height="1" em="true">VAT 20%&#9;&#9;&#9;£${receiptData.vat.toFixed(
