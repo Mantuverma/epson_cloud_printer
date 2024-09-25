@@ -92,10 +92,12 @@ epsonRouter.post("/print-data", (req: Request, res: Response) => {
   const itemsXml = receiptData.items
     .map(
       (item) => `
-<text width="1" height="2" em="true">${item.quantity} x ${
+<text font="font_b" width="1" height="1">${item.quantity} x ${
         item.name
-      }&#9;£${item.price.toFixed(2)}&#10;</text>
-<text>${item.extra}: ${item.size}&#9;£${item.sizePrice.toFixed(2)}&#10;</text>
+      }&#9;&#9;£${item.price.toFixed(2)}&#10;</text>
+<text font="font_a" width="1" height="1">${item.extra}: ${
+        item.size
+      }&#9;&#9;£${item.sizePrice.toFixed(2)}&#10;</text>
     `
     )
     .join("");
@@ -114,57 +116,73 @@ epsonRouter.post("/print-data", (req: Request, res: Response) => {
 <text lang="en"/>
 <text smooth="true"/>
 <text align="center"/>
-<text font="font_b" width="2" height="2" em="true"/>
+<text font="font_b" width="1" height="1" em="true"/>
 <text>Grauns Restaurant&#10;</text>
-<text align="center">Order Receipt&#10;</text>
+<text font="font_a" width="1" height="1" em="true">Order Receipt&#10;</text>
 <feed unit="12"/>
 <!-- Order Details -->
 <text align="left"/>
-<text font="font_a" em="true"/>
-<text>Order ID: ${receiptData.orderId}&#9;&#10;</text>
+<text font="font_a" width="1" height="1" em="true"/>
+<text>Order ID: ${receiptData.orderId}&#9;&#9;Uber Eat&#10;</text>
 <text>Order Placed: ${receiptData.orderReceivedTime}&#10;</text>
 <text>Delivery Time: ${receiptData.estimatedDeliveryTime}&#10;</text>
 <feed unit="12"/>
-<text>-------------------------------&#10;</text>
+<text>----------------------------------------&#10;</text>
  
             <!-- Items Section -->
-<text font="font_a" em="true"/>
+<text font="font_a" width="1" height="1" em="true"/>
 <text>Items Ordered&#10;</text>
             ${itemsXml}
 <feed unit="12"/>
-<text>-------------------------------&#10;</text>
+<text>----------------------------------------&#10;</text>
  
             <!-- Charges Section -->
-<text>Subtotal&#9;&#9;£${receiptData.subtotal.toFixed(2)}&#10;</text>
-<text>Delivery Fee&#9;&#9;£${receiptData.deliveryFee.toFixed(2)}&#10;</text>
-<text>Service Charge&#9;£${receiptData.serviceCharge.toFixed(2)}&#10;</text>
-<text>VAT 20%&#9;&#9;&#9;£${receiptData.vat.toFixed(2)}&#10;</text>
+<text font="font_b" width="1" height="1" em="true">Subtotal&#9;&#9;£${receiptData.subtotal.toFixed(
+    2
+  )}&#10;</text>
+<text font="font_b" width="1" height="1" em="true">Delivery Fee&#9;&#9;£${receiptData.deliveryFee.toFixed(
+    2
+  )}&#10;</text>
+<text font="font_b" width="1" height="1" em="true">Service Charge&#9;£${receiptData.serviceCharge.toFixed(
+    2
+  )}&#10;</text>
+<text font="font_b" width="1" height="1" em="true">VAT 20%&#9;&#9;&#9;£${receiptData.vat.toFixed(
+    2
+  )}&#10;</text>
 <feed unit="12"/>
-<text>-------------------------------&#10;</text>
+<text>----------------------------------------&#10;</text>
  
             <!-- Total Section -->
 <text width="2" height="2" em="true"/>
-<text>TOTAL&#9;&#9;£${receiptData.total.toFixed(2)}&#10;</text>
+<text font="font_b" width="1" height="2" em="true">TOTAL&#9;&#9;£${receiptData.total.toFixed(
+    2
+  )}&#10;</text>
 <feed unit="12"/>
-<text>-------------------------------&#10;</text>
+<text>----------------------------------------&#10;</text>
  
             <!-- Special Instructions -->
-<text>Special Instructions&#10;</text>
-<text>${receiptData.specialInstructions}&#10;</text>
+<text font="font_b" width="1" height="1" em="true">Special Instructions&#10;</text>
+<text font="font_a" width="1" height="1">${
+    receiptData.specialInstructions
+  }&#10;</text>
 <feed unit="12"/>
-<text>-------------------------------&#10;</text>
+<text>----------------------------------------&#10;</text>
  
             <!-- Customer Information -->
-<text>Customer Name: ${receiptData.customerName}&#10;</text>
-<text>Delivery Address: ${receiptData.address}&#10;</text>
-<text>Phone: ${receiptData.phone}&#10;</text>
-<text>Email: ${receiptData.email}&#10;</text>
+<text font="font_b" width="1" height="1" em="true">Customer Name: ${
+    receiptData.customerName
+  }&#10;</text>
+<text font="font_a" width="1" height="1">Delivery Address: ${
+    receiptData.address
+  }&#10;</text>
+<text font="font_a" width="1" height="1">Phone: ${receiptData.phone}&#10;</text>
+<text font="font_a" width="1" height="1">Email: ${receiptData.email}&#10;</text>
 <feed unit="12"/>
-<text>-------------------------------&#10;</text>
+<text>----------------------------------------&#10;</text>
  
             <!-- Footer Section -->
 <text align="center"/>
-<text>Thank you for choosing Grauns &#10;</text>
+<text font="font_b" width="1" height="1">Thank you for choosing Grauns Restaurant!&#10;</text>
 <feed line="3"/>
 <cut type="feed"/>
 </epos-print>
