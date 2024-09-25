@@ -92,10 +92,10 @@ epsonRouter.post("/print-data", (req: Request, res: Response) => {
   const itemsXml = receiptData.items
     .map(
       (item) => `
-    <text width="1" height="1" em="true">${item.quantity} x ${
+    <text width="1" height="2" em="true">${item.quantity} x ${
         item.name
       }&#9;£${item.price.toFixed(2)}&#10;</text>
-    <text width="1" height="1" em="true">${item.extra}&#9;${
+    <text width="1" height="2" em="true">${item.extra}&#9;${
         item.size
       }&#9;£${item.sizePrice.toFixed(2)}&#10;</text>
   `
@@ -117,12 +117,12 @@ epsonRouter.post("/print-data", (req: Request, res: Response) => {
             <text smooth="true"/>
             <text align="center"/>
             <text font="font_b" width="2" height="2" em="true"/>
-            <text>Grauns</text>
+            <text>Grauns&#10;</text>
             <feed unit="12"/>
             <!-- Order Details Section -->
             <text align="left"/>
             <text font="font_a" em="true"/>
-            <text>Order ID: ${receiptData.orderId}&#9;Uber Eat&#10;</text>
+            <text>Order ID: ${receiptData.orderId}&#9;&#10;Uber Eat&#10;</text>
             <text>Order Placed : ${receiptData.orderReceivedTime}&#10;</text>
             <feed unit="12"/>
             <text>------------------------&#10;&#10;</text>
@@ -149,7 +149,7 @@ epsonRouter.post("/print-data", (req: Request, res: Response) => {
           <text>------------------------&#10;&#10;</text>
 
             <!-- Total Section -->
-            <text width="2" height="1" em="true"/>
+            <text width="1" height="2" em="true"/>
             <text font="font_b">TOTAL&#9;&#9;&#9;£${receiptData.total.toFixed(
               2
             )}&#10;</text>
