@@ -78,7 +78,6 @@ epsonRouter.post("/print-data", (req: Request, res: Response) => {
     subtotal: 10.0,
     deliveryFee: 2.0,
     serviceCharge: 12.0,
-    badCharge: 24.0,
     vat: 5.0,
     total: 50.0,
     specialInstructions:
@@ -117,12 +116,14 @@ epsonRouter.post("/print-data", (req: Request, res: Response) => {
             <text lang="en"/>
             <text smooth="true"/>
             <text align="left"/>
+            <text font="font_b" width="2" height="2" em="true"/>
+            <feed unit="12"/>
 
             <!-- Order Details Section -->
             <text align="left"/>
             <text font="font_a" em="true"/>
             <text>Order ID: ${receiptData.orderId}&#9;Uber Eat&#10;</text>
-            <text>Date & Time: ${receiptData.orderReceivedTime}&#10;</text>
+            <text>Order received: ${receiptData.orderReceivedTime}&#10;</text>
             <feed unit="12"/>
             <text>------------------------&#10;&#10;</text>
 
@@ -143,10 +144,9 @@ epsonRouter.post("/print-data", (req: Request, res: Response) => {
             <text>Service charge&#9;£${receiptData.serviceCharge.toFixed(
               2
             )}&#10;</text>
-            <text>Bad charge&#9;£${receiptData.badCharge.toFixed(2)}&#10;</text>
             <text>VAT 20%&#9;&#9;£${receiptData.vat.toFixed(2)}&#10;</text>
             <feed unit="12"/>
-           <text>------------------------&#10;&#10;</text>
+            <text>-----------------------&#10;&#10;</text>
 
             <!-- Total Section -->
             <text width="2" height="1" em="true"/>
@@ -154,7 +154,7 @@ epsonRouter.post("/print-data", (req: Request, res: Response) => {
               2
             )}&#10;</text>
             <feed unit="12"/>
-            <text>------------------------&#10;&#10;</text>
+            <text>-----------------------&#10;&#10;</text>
 
             <!-- Special Instructions Section -->
             <text>Special Instructions&#10;&#10;</text>
