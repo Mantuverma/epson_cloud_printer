@@ -164,7 +164,7 @@ epsonRouter.post("/print-data", (req: Request, res: Response) => {
  
             <!-- Footer Section -->
 <text align="center"/>
-<text>Thank you for choosing Grauns Restaurant!&#10;</text>
+<text>Thank you for choosing Grauns &#10;</text>
 <feed line="3"/>
 <cut type="feed"/>
 </epos-print>
