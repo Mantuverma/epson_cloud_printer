@@ -83,7 +83,7 @@ epsonRouter.post("/print-data", (req: Request, res: Response) => {
     specialInstructions:
       "Extra cheese on the sandwich, please. Hold the mushrooms.",
     customerName: "Shabeer",
-    address: "Flat 4, 117 the parade, Highstreet, Watford WD17 1LU",
+    address: "Flat 4, 117 the parade, Highstreet,   Watford WD17 1LU",
     phone: "07767878723",
     email: "shabeer@yopmail.com",
   };
@@ -92,13 +92,13 @@ epsonRouter.post("/print-data", (req: Request, res: Response) => {
   const itemsXml = receiptData.items
     .map(
       (item) => `
-      <text>${item.quantity} x ${item.name.padEnd(20)}£${item.price.toFixed(
-        2
-      )}&#10;</text>
-      <text>${item.extra}&#10;${item.size.padEnd(20)}£${item.sizePrice.toFixed(
-        2
-      )}&#10;</text>
-    `
+    <text width="1" height="1" em="true">${item.quantity} x ${
+        item.name
+      }&#9;£${item.price.toFixed(2)}&#10;</text>
+    <text width="1" height="1" em="true">${item.extra}&#9;${
+        item.size
+      }&#9;£${item.sizePrice.toFixed(2)}&#10;</text>
+  `
     )
     .join("");
 
@@ -115,21 +115,21 @@ epsonRouter.post("/print-data", (req: Request, res: Response) => {
             <!-- Header Section -->
             <text lang="en"/>
             <text smooth="true"/>
-            <text align="left"/>
+            <text align="center"/>
             <text font="font_b" width="2" height="2" em="true"/>
+            <text>Grauns</text>
             <feed unit="12"/>
-
             <!-- Order Details Section -->
             <text align="left"/>
             <text font="font_a" em="true"/>
             <text>Order ID: ${receiptData.orderId}&#9;Uber Eat&#10;</text>
-            <text>Order received: ${receiptData.orderReceivedTime}&#10;</text>
+            <text>Order Placed : ${receiptData.orderReceivedTime}&#10;</text>
             <feed unit="12"/>
             <text>------------------------&#10;&#10;</text>
 
             <!-- Items Section -->
             <text font="font_a" em="true"/>
-            <text>Items&#10;</text>
+            <text>Items&#10;&#10;</text>
             ${itemsXml}
             <feed unit="12"/>
             <text>------------------------&#10;&#10;</text>
@@ -144,9 +144,9 @@ epsonRouter.post("/print-data", (req: Request, res: Response) => {
             <text>Service charge&#9;£${receiptData.serviceCharge.toFixed(
               2
             )}&#10;</text>
-            <text>VAT 20%&#9;&#9;£${receiptData.vat.toFixed(2)}&#10;</text>
+            <text>VAT 20%&#9;&#9;&#9;£${receiptData.vat.toFixed(2)}&#10;</text>
             <feed unit="12"/>
-            <text>-----------------------&#10;&#10;</text>
+          <text>------------------------&#10;&#10;</text>
 
             <!-- Total Section -->
             <text width="2" height="1" em="true"/>
@@ -154,7 +154,7 @@ epsonRouter.post("/print-data", (req: Request, res: Response) => {
               2
             )}&#10;</text>
             <feed unit="12"/>
-            <text>-----------------------&#10;&#10;</text>
+            <text>------------------------&#10;&#10;</text>
 
             <!-- Special Instructions Section -->
             <text>Special Instructions&#10;&#10;</text>
@@ -168,7 +168,7 @@ epsonRouter.post("/print-data", (req: Request, res: Response) => {
             <text>Phone: ${receiptData.phone}&#10;</text>
             <text>Email: ${receiptData.email}&#10;</text>
             <feed unit="12"/>
-            <text>------------------------&#10;&#10;</text>
+           <text>------------------------&#10;&#10;</text>
 
             <!-- Footer Section -->
             <text align="center"/>
